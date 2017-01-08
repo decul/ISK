@@ -54,16 +54,13 @@ namespace ISK
 
                 Console.WriteLine("\r\t\t\t\t\t\r" + mutation + "\t" + cross + "\t" + elite + "\t" + evoLen);
 
-                mutation = FuckingRand(System.Math.Max(0.0, bestMutation - 0.001), System.Math.Min(1.0, bestMutation + 0.001));
-                cross = FuckingRand(System.Math.Max(0.0, bestCross - 0.02), System.Math.Min(1.0, bestCross + 0.02));
-                elite = FuckingRand(System.Math.Max(0.005, bestElite - 0.01), System.Math.Min(1.0, bestElite + 0.01));
+                mutation = RandomDouble(System.Math.Max(0.0, bestMutation - 0.001), System.Math.Min(1.0, bestMutation + 0.001));
+                cross = RandomDouble(System.Math.Max(0.0, bestCross - 0.02), System.Math.Min(1.0, bestCross + 0.02));
+                elite = RandomDouble(System.Math.Max(0.005, bestElite - 0.01), System.Math.Min(1.0, bestElite + 0.01));
             }
-
-            Console.WriteLine("Taki chuj");
-            Console.Read();
         }
 
-        static public double FuckingRand(double min, double max)
+        static public double RandomDouble(double min, double max)
         {
             double range = max - min;
             return rand.NextDouble() * range + min;
