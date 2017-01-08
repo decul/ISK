@@ -10,16 +10,6 @@ namespace ISK
 {
     class Program
     {
-        //bool minColorsNo = false;
-        //const double crossoverProbability = 0.98;
-        //const int elitismPercentage = 3;
-        //const double mutationProbability = 0.002;
-
-        //static bool minColorsNo = true;
-        //const double crossoverProbability = 0.98;
-        //const int elitismPercentage = 3;
-        //const double mutationProbability = 0.002;
-
         static Random rand = new Random();
         static Data data;
 
@@ -29,7 +19,7 @@ namespace ISK
 
         private static void Main(string[] args)
         {
-            data = new Data("dane/25.txt", true);
+            data = new Data("dane/100.txt", true);
 
             double mutation = 0.002;
             double cross = 0.98;
@@ -42,7 +32,7 @@ namespace ISK
             while (true)
             {
                 int evoLen = 0;
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 1; i++)
                     evoLen += Run(cross, mutation, elite);
                 if (bestEvoLen > evoLen)
                 {
@@ -111,7 +101,7 @@ namespace ISK
         {
             if (chromosome != null)
             {
-                int fitness = 0;
+                int errors = 0;
                 var globalColorsUses = new int[data.PosibleGenesNo];
 
                 foreach (var edgeGroup in data.EdgesOfVertex)
@@ -126,7 +116,7 @@ namespace ISK
                     foreach (var colorUse in colorsUses)
                     {
                         if (colorUse > 1)
-                            fitness += colorUse - 1;
+                            errors += colorUse - 1;
                     }
                 }
 
@@ -137,11 +127,11 @@ namespace ISK
                         colorsUsed++;
                 }
                 if (colorsUsed > data.ChromaticIndex)
-                    fitness += colorsUsed - data.ChromaticIndex;
+                    errors += colorsUsed - data.ChromaticIndex;
                 if (colorsUsed < data.ChromaticIndex - 1)
-                    fitness += data.ChromaticIndex - colorsUsed - 1;
+                    errors += data.ChromaticIndex - colorsUsed - 1;
 
-                return 1.0 / (fitness + 1);
+                return 1.0 / (errors + 1);
             }
             else
             {
@@ -152,7 +142,7 @@ namespace ISK
 
         static bool TerminateAlgorithm(Population population, int currentGeneration, long currentEvaluation)
         {
-            return currentGeneration > 200 || population.MaximumFitness >= 1.0;
+            return currentGeneration > 10000 || population.MaximumFitness >= 1.0;
         }
 
         static void ga_OnGenerationComplete(object sender, GaEventArgs e)
